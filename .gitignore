@@ -1,0 +1,11 @@
+# === 1. Mac 系统垃圾 ===
+# Mac 自动生成的隐藏缓存文件，必须忽略，否则每次打开文件夹都会产生修改记录
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# === 2. Obsidian 界面状态（防止多设备同步冲突） ===
+# 这两个文件记录了你当前打开了哪个标签页、侧边栏宽度等。
+# 必须忽略，否则你换台设备打开，或者每次关软件，都会疯狂报冲突
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
