@@ -315,16 +315,14 @@ We train the VLA to produce an "RL token" that can then provide a concise summar
 
 The RL token is used by an actor and critic, which are trained with a sample-efficient off-policy RL method. Because the actor and critic operate on this compact representation, they can be represented with small networks that are trained directly on the robot, with hundreds of updates per second. This makes RL training responsive enough to improve the behavior after each attempt.
 
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTM3MmI4ODNjZDRiNmVmOTJmZDQ1ODEyYjU5MDA5MDFfWTlQZ1N6eHRsMHQxdVpZRlB1aXhiOHlNNFhLdGJ3NmJfVG9rZW46REgyY2JRVXJab0x2bUl4cHNMcWNvblBYblJnXzE3NzY3NzAwNjY6MTc3Njc3MzY2Nl9WNA)
+![[Physical Intellgence/feishu_1776845754644_1.png]]
 
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=NWE0ZjNmOWI5YzJiMmIwMGU2NGYxYzU1MWQ3OGFkMTNfQjc4QUljbDVxOFlSTkhQYkwxeDNIRWhrOENzaDJ2NDRfVG9rZW46TVVVUGJuNEVCb2IwNWF4TDJrdWNjV1pPbllnXzE3NzY3NzAwNjY6MTc3Njc3MzY2Nl9WNA)
+![[Physical Intellgence/feishu_1776845755197_2.png]]
 
 **First**, the RL policy predicts action chunks, _matching the action structure used by the VLA_ rather than acting at individual low-level control steps. This lets the online policy adapt the same temporally extended motions that matter in our tasks. **Second**, the RL policy does not act from scratch: the actor receives the VLA’s predicted action as input, so it learns to edit the VLA action rather than replace it entirely. We regularize the policy update toward this reference action, so the exploration stays close to the VLA when its behavior is already reasonable and deviates only when the critic identifies a better alternative. To prevent the policy from simply copying the VLA early in training, we also apply reference-action dropout, which forces the actor to maintain an independent action-generation pathway. **Finally**, we can optionally incorporate human interventions directly into the RL update, folding corrections back into training when the robot gets stuck or makes a mistake. These choices make online RL a reusable recipe that can be attached to a pretrained VLA across different tasks without task-specific engineering.
 
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=MzMwZThkZTJkZWEyMjZhZTJjNzI4NWFmZWY3NmUzMDBfSTh4TFJJeWN3RmJqSmJkZ3B0Y3RwSEs3Q3IyZHo3emxfVG9rZW46RjcxUWJqN0t1b2hzZkx4VXhBamNiS3kwbkVnXzE3NzY3NzAwNjY6MTc3Njc3MzY2Nl9WNA)
-
-
+![[Physical Intellgence/feishu_1776845755713_3.png]]
 
 ### **MEM by Pi**
 
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=YTQyZWIzMDk4MTUxNzBmZGEwZTJmMTdlZWUzYTA0YjRfa3cyWmFkdUo5YmZKbWVQN1ZVZm5IM1REeFpyUUxyRzlfVG9rZW46SWU1dmI3NXpsb0RSbjF4YjZDY2NZUDVZbldnXzE3NzY3NzAzMjM6MTc3Njc3MzkyM19WNA)
+![[Physical Intellgence/feishu_1776845756222_4.png]]

@@ -95,7 +95,7 @@ DreamGen是一个用于生成神经轨迹的四阶段流程，该流程利用视
 
 通过DreamGen，我们将机器人学习的范式从扩展人类远程操作数据转变为通过世界模型扩展GPU计算能力。
 
-![[Nvidia GR00T/1769871553964-20.png]]
+![[Nvidia GR00T/feishu_1776845750484_1.png]]
 
 DreamGen分为4个步骤：
 
@@ -109,22 +109,16 @@ DreamGen分为4个步骤：
 ### **EgoScale**
 
 **EgoScale**, a human-to-dexterous-manipulation transfer framework built on large-scale egocentric human data.
+![[Nvidia GR00T/feishu_1776845751248_2.png]]
 
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQxMTdlYWVmYTExODU1NTcwYTFhOWNmNjFiMGJhNzlfbTFhdzZuRmsyNUFScmdLZ0UyZGFuSUdWZjR0ODVQR3pfVG9rZW46T2NPNWJkTlN6b2dZb214YnBScWN0TlBxbk1lXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
-
-  
-
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=ODg2ZTBiZDU1ZTk4MjVhN2JmNGIyYjdkODM3NGRmNmNfWUtwcmoxejk2NlJ2aHdRdlp4RzlGZ1VMa093dGVhb1hfVG9rZW46QUVLUmJGNzVib0pUWDR4a2xvM2N6ZDNIbkNlXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
-
-
-
+![[Nvidia GR00T/feishu_1776845751916_3.png]]
 ### **DreamGen**
 
 Unlocking Genearlization in Robot Learning through Video World Models
 
 We introduce **DreamGen**, a 4-stage pipeline to generate _**neural trajectories**_**, synthetic robot data** generated from video world models. This work is the first in literature to enable **zero-shot behavior generalization and zero-shot environment generalization**: we enable a humanoid robot to perform 22 new behaviors in both seen and unseen environments, while requiring teleoperation data from only a single pick-and-place task in one environment. Through DreamGen, we change the paradigm of robot learning **from scaling human teleoperation data to scaling GPU compute through world models.**
 
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=NWYyYjkzNWVjNjBjOWZjMmEzZWYyYTQ1OTczNWU5MWNfSGNVajJRTEhETTNXbjF6TGd0eDFJb3R1aEFmZDhqaEtfVG9rZW46QUhsNWJIUUJFb0l4NW14RjhPN2NndldPbkJnXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
+![[Nvidia GR00T/feishu_1776845750484_1.png]]
 
 四个步骤：
 
@@ -136,16 +130,13 @@ We introduce **DreamGen**, a 4-stage pipeline to generate _**neural trajectories
     
     1. **[latent action model](https://latentactionpretraining.github.io/)** （LAPA: the first unsupervised method for pretraining Vision-Language-Action (VLA) models without ground-truth robot action labels）(We first train an action quantization model leveraging VQ- VAE-based objective to learn discrete latent actions between image frames, then pretrain a latent VLA model to predict these latent actions from observations and task descriptions, and finally finetune the VLA on small-scale robot manipulation data to map from latent to robot actions. )
         
+	    ![[Nvidia GR00T/feishu_1776845752397_4.png]]
     
-    ![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDlhYWEwMjc1YTVjMDQ5M2E0YjliYzExNWE1MTZjY2RfdWl0T0pIall6S2wxNlN4aXhuMlk5OGUxbWVZU1J4SHlfVG9rZW46THJocGJJWWpkb1RIZ2F4Rm5kWmN4bWNWbm1oXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
     
     2. **[inverse dynamics model](https://openai.com/index/vpt/)** (IDM).
         
-    
       **the IDM can use past** _**and future**_ **information to guess the action at each step.** This task is much easier and thus requires far less data than the behavioral cloning task of predicting actions given _past video frames only_, which requires inferring what the person wants to do and how to accomplish it. We can then use the trained IDM to label a much larger dataset of online videos and learn to act via behavioral cloning.
-    
-
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=YWVmNDQxMzlmYTRhZTEwMzIxNjMxYzdmNTViYmMzOTRfelpUTXl1YmRpQ0FmSHRxV1JSYXJ2T0ZvU1ZYUU1EdE5fVG9rZW46RTE5UGJ0ZEVHb0lJbXh4SnZsMWNDNTdabldmXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
+	    ![[Nvidia GR00T/feishu_1776845752871_5.png]]
 
 4. We use these videos labeled with pseudo actions, named as _**neural trajectories**_, for downstream visuomotor policy learning
     
@@ -158,7 +149,4 @@ DreamGen Bench，这是一个世界建模基准测试，旨在量化现有视频
 ### **DreamZero**
 
 State-of-the-art Vision-Language-Action (VLA) models excel at _semantic generalization_ but struggle to generalize to unseen physical motions in novel environments. We introduce DreamZero, a _World Action Model (WAM)_ built upon a **pretrained video diffusion backbone**. Unlike VLAs, WAMs learn physical dynamics by **jointly predicting future world states and actions, using video as a dense representation of how the world evolves**. By jointly modeling video and action, DreamZero learns diverse skills effectively from heterogeneous robot data without relying on repetitive demonstrations. This results in over 2x improvement in generalization to new tasks and environments compared to state-of-the-art VLAs in real-robot experiments. Crucially, through model and system optimizations, we enable a **14B autoregressive video diffusion model to perform real-time** _**closed-loop control at 7Hz**__._ Finally, we demonstrate two forms of cross-embodiment transfer: video-only demonstrations from humans or other robots yield over 42% improvement on unseen tasks with just 10–20 minutes of data. More surprisingly, DreamZero adapts to an entirely new robot (YAM) with only 30 minutes of play data while retaining zero-shot generalization.
-
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=NTdiOGMzNDUyMGU0NTA1YTY2ZjMxOTkzYjQyODE0MGJfNDRjY0lnNHZNU0dyYzM1VTZCRGpqRGpUZWtCRHdka25fVG9rZW46UVd3aGJjSk92b3B2S2l4TURKWWNiZ0l1bmpnXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
-
-![](https://primebot.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGE5YzI0MWEzOTQzZmVkYTgxNjdjMDMxN2NmMmViMzBfdjg4Z2I1NXBBTHY5WEpZRzFybEpPdXhtWlNMVTN0QmRfVG9rZW46SFZudGJ1RzVTbzNmVGN4SkwxbGNjZnZWbnRnXzE3NzY3NzAxNjY6MTc3Njc3Mzc2Nl9WNA)
+![[Nvidia GR00T/feishu_1776845753367_6.png]]![[Nvidia GR00T/feishu_1776845754070_7.png]]
