@@ -1,4 +1,4 @@
 {
   "newFileLocation": "root",
-  "attachmentFolderPath": "assets/${filename}"
+  "attachmentFolderPath": "assets/${noteFileName}"
 }

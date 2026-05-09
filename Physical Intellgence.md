@@ -325,4 +325,102 @@ The RL token is used by an actor and critic, which are trained with a sample-eff
 
 ### **MEM by Pi**
 
+![[Screenshot 2026-04-22 at 8.41.28 PM.png]]
+
 ![[Physical Intellgence/feishu_1776845756222_4.png]]
+
+
+### Pi 0.7
+
+What makes π0.7 generalize so broadly? The key to generalization for foundation models is to use broad and diverse data, which in our case includes data from many different robots, human data, and even autonomous episodes collected by running various policies. Merging all these data sources naively does not lead to good results. We find that the key to using all of these data sources to attain compositional generalization is to add **_diverse context_** to the prompt: training the model with a variety of multimodal prompt structures that specify **not only _what_ the robot should do, but _how_ it should do it**. The prompt can include not just a textual description of the task, but a variety of other **annotations and modalities**. For example, providing the model with a visual subgoal defines a precise spatial layout of objects. Providing the desired length of the episode specifies how quickly the task should be done. **Critically, all of these pieces of information disambiguate the behavior, enabling diverse data with different strategies, behaviors, and levels of proficiency to be included in training.** At test time, our model accepts standard language instructions, but also information about the desired strategy, and even synthetically generated visual subgoals produced by a lightweight world model. We show some examples of what π0.7 can do below.
+
+#### Leveraging more data with diverse conditioning
+
+The different prompt modalities allow π0.7 to integrate a wide range of diverse data sources, including data from different robots and control modalities, human videos, and autonomous data. While our prior models also used some of these data sources (e.g., [videos](https://www.pi.website/research/human_to_robot)), π0.7 unifies these under a single prompting framework, supporting:
+
+- **Diverse language** that describes the task and individual sub-steps.
+    
+- **Metadata** that describes _how_ the task was performed, such as speed and quality.
+    
+- **Control modality labels** that indicate whether to use joint or end-effector control.
+    
+- **Visual subgoal images** that show what the end of the current sub-step should _look like_. These images can be generated at test time by a world model that provides for visual generalization.
+    
+
+With these different annotation sources, π0.7 can leverage more types of data. For example, suboptimal autonomous evaluation data, which would ordinarily risk teaching the model to perform lower-quality actions, can be incorporated by annotating it with appropriate metadata (e.g., lower quality or lower speed).
+![[Screenshot 2026-04-22 at 5.26.18 PM.png]]
+
+
+![[Screenshot 2026-04-22 at 7.01.23 PM.png]]
+
+![[Screenshot 2026-04-22 at 7.36.18 PM.png]]
+
+
+### V. 提示多样化 (Diversifying the Prompt)
+
+$\pi_{0.7}$ 的训练旨在处理包含多种组件的提示。为了增强测试时的灵活性，模型在训练期间会随机丢弃（Dropout）这些组件，使其能够处理任何子集的组合。
+
+#### A. 子任务指令 (Subtask Instructions)
+
+除了总体文本任务描述 $\ell_t$（如“清理厨房”）外，模型还包含捕获语义子任务的中间层文本 $\hat{\ell}_t$（如“打开冰箱门”）。
+
+- **来源：** 在推理时，$\hat{\ell}_t$ 可由学习到的高级策略产生、由人类提供或省略。
+    
+- **功能：** **逐步教练：** 允许人类通过实时指令引导模型完成新任务（如“将红薯放入空气炸锅”）。
+    
+    - **策略微调：** 训练数据可用于将 $\pi_{0.7}$ 微调为高级策略，将观察结果和任务规格映射为具体的子任务指令。
+        
+
+#### B. 子目标图像 (Subgoal Images)
+
+子任务指令虽然有效，但往往缺乏执行细节。子目标图像通过描绘场景的近期期望状态，提供了更丰富的规格说明。
+
+- **多视图子目标：** $g_t = [G^1_t, \dots, G^n_t]$。通过多视图（如底座视图和腕部视图）同时指定环境、物体及机械臂/夹具的状态，改善空间接地（Spatial Grounding）。
+    
+- **生成机制：** 运行时由轻量级**世界模型** $g_\psi$ 生成。该模型基于 BAGEL（14B 参数的混合专家模型）初始化，并在视频和图像编辑数据上进行了预训练。
+    
+- **训练目标：** 使用标准流匹配损失（Flow Matching Loss）：
+    $$\max_{\psi} \mathbb{E}_{\mathcal{D}_g} [L_{CFM}(g^\star_t, g_\psi(o_t, \hat{\ell}_t, m))]$$
+    
+    其中 $g^\star_t = o_{t_{end}}$ 是片段末尾的真实图像。
+
+#### C. 片段元数据 (Episode Metadata)
+
+为了利用低质量演示、失败案例及自主采集的数据，模型引入了片段元数据 $m$，以便在推理时引导模型选择高性能的动作。
+
+- **总速度 (Overall speed)：** 离散化的时间步长度（如 500 步为一个区间）。
+    
+- **总质量 (Overall quality)：** 1 到 5 分的任务执行质量评分。
+    
+- **错误 (Mistake)：** 布尔值，指示机器人是否在特定动作片段中犯错（如抓取失败）。
+    
+
+> **推理优势：** 在运行时，可以通过提示词要求模型以“高速度、高质量、无错误”的状态执行任务。
+
+#### D. 控制模式 (Control Mode)
+
+模型支持不同的底层动作执行模式，通过文本标识符 $c \in \{\text{joint, ee}\}$ 进行指定：
+
+- **Joint：** 关节空间控制。
+    
+- **EE：** 末端执行器（End-effector）控制。
+    
+
+#### E. 完整提示示例与训练细节
+
+#### 提示词示例
+
+> **Task:** peel vegetables. **Subtask:** pick up the peeler. **Speed:** 8000. **Quality:** 5. **Mistake:** false. **Control Mode:** joint.
+
+##### 训练策略（随机丢弃比例）
+
+为了提高鲁棒性，模型在训练时对各组件应用了不同的丢弃概率：
+
+| **组件**         | **丢弃概率** | **备注**                                  |
+| -------------- | -------- | --------------------------------------- |
+| **视觉子目标图像**    | 75%      | 仅 25% 的样本包含图像；加入图像可使任务转化为“逆动力学”问题，加速收敛。 |
+| **子任务指令**      | 30%      | 仅在存在子目标图像的情况下进行丢弃。                      |
+| **片段元数据 (整体)** | 15%      | 整体完全丢弃的概率。                              |
+| **具体元数据项**     | 5%       | 速度、质量、错误标签各自独立丢弃的概率。                    |
+| **控制模式**       | 0%       | 不应用丢弃。                                  |
+

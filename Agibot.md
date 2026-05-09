@@ -46,7 +46,7 @@ To achieve **high-frequency and dexterous manipulation**, we integrate an action
 
   
 
-### **GO1** **https://opendrivelab.com/OpenGO1/#data-quality**
+### **GO1** https://opendrivelab.com/OpenGO1/#data-quality
 
 #### **The Anatomy of Manipulation Data Quality**
 

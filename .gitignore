@@ -4,6 +4,9 @@
 .AppleDouble
 .LSOverride
 
-# === 2. Obsidian 配置目录 ===
-# 插件二进制、设置等不需要版本控制，且含机器特定路径
-.obsidian/
+# === 2. Obsidian 机器相关文件 ===
+# workspace.json 记录打开的标签页等状态，多设备必冲突
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+# plugins/ 含机器特定路径和插件二进制，可从市场重装
+.obsidian/plugins/
