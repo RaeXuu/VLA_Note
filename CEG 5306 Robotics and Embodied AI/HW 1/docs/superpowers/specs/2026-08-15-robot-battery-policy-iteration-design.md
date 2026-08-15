@@ -22,21 +22,21 @@ The deliverable is a self-contained Jupyter Notebook that explains the MDP, impl
 
 Each state is a pair:
 
-\[
+$$
 s=(L,B),
-\]
+$$
 
 where
 
-\[
+$$
 L\in\{\texttt{charging\_zone},\texttt{task\_zone}\}
-\]
+$$
 
 and
 
-\[
+$$
 B\in\{0,1,2,3,4,5\}.
-\]
+$$
 
 The model therefore contains 12 states.
 
@@ -68,9 +68,9 @@ At `(charging_zone, 5)`, `travel_to_task` is the only legal action. At `(chargin
 
 Use
 
-\[
+$$
 \gamma=0.95.
-\]
+$$
 
 This continuing discounted MDP values long-term task completion while keeping the infinite return finite.
 
@@ -84,21 +84,21 @@ Create a deterministic initial policy by selecting the first legal action for ea
 
 For the current policy, construct
 
-\[
+$$
 T^\pi_{ij}=P(j\mid i,\pi(i))
-\]
+$$
 
 and
 
-\[
+$$
 r^\pi_i=r(i,\pi(i)).
-\]
+$$
 
 Solve the Bellman linear system directly:
 
-\[
+$$
 (I-\gamma T^\pi)V^\pi=r^\pi.
-\]
+$$
 
 Use `numpy.linalg.solve`; do not explicitly calculate a matrix inverse.
 
@@ -106,15 +106,15 @@ Use `numpy.linalg.solve`; do not explicitly calculate a matrix inverse.
 
 For every legal action, calculate
 
-\[
+$$
 Q^\pi(s,a)=r(s,a)+\gamma\sum_{s'}P(s'\mid s,a)V^\pi(s').
-\]
+$$
 
 Set
 
-\[
+$$
 \pi_{\mathrm{new}}(s)=\arg\max_a Q^\pi(s,a).
-\]
+$$
 
 Use the declared legal-action order as a deterministic tie-breaking rule.
 
@@ -122,9 +122,9 @@ Use the declared legal-action order as a deterministic tie-breaking rule.
 
 Stop when the policy is unchanged across a complete improvement step:
 
-\[
+$$
 \pi_{\mathrm{new}}=\pi.
-\]
+$$
 
 Record the number of outer policy-iteration rounds and the number of states whose actions change in every round.
 
