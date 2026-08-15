@@ -59,3 +59,14 @@ def test_notebook_exports_required_figures():
     value_path = PROJECT_ROOT / "output" / "value_heatmap.png"
     assert policy_path.exists() and policy_path.stat().st_size > 10_000
     assert value_path.exists() and value_path.stat().st_size > 10_000
+
+
+def test_notebook_contains_required_explanation():
+    notebook = nbformat.read(NOTEBOOK_PATH, as_version=4)
+    markdown = "\n".join(
+        cell.source for cell in notebook.cells if cell.cell_type == "markdown"
+    )
+    assert "Policy Evaluation" in markdown
+    assert "Policy Improvement" in markdown
+    assert "Value Function" in markdown
+    assert "Why this submission should be highlighted" in markdown
