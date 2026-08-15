@@ -138,6 +138,22 @@ $$
 
 Record the number of outer policy-iteration rounds and the number of states whose actions change in every round.
 
+### Value function output
+
+Every policy-evaluation step produces the state-value function
+
+$$
+V^\pi(s)=\mathbb{E}\left[\sum_{t=0}^{\infty}\gamma^t r(S_t,\pi(S_t))\mid S_0=s\right].
+$$
+
+It represents the expected discounted return from each robot state when the current policy is followed. After policy iteration converges to the stable optimal policy $\pi^*$, the final evaluated value function satisfies
+
+$$
+V^{\pi^*}=V^*.
+$$
+
+The Notebook will report the numerical value of all 12 states and visualize the final optimal value function as a two-by-six heatmap. This makes it possible to inspect both outputs of policy iteration: the optimal action selected in every state and the long-term value of every state.
+
 ## Notebook Structure
 
 1. Title and problem motivation
@@ -148,9 +164,10 @@ Record the number of outer policy-iteration rounds and the number of states whos
 6. Policy improvement implementation
 7. Policy iteration implementation
 8. Verification checks
-9. Final policy table
-10. Value-function heatmap
-11. Short discussion and highlight statement
+9. Final optimal value-function table
+10. Final policy table
+11. Value-function heatmap
+12. Short discussion and highlight statement
 
 Markdown cells will explain the mathematics, while code cells will remain short and executable in top-to-bottom order.
 
