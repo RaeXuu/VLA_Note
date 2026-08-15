@@ -35,3 +35,10 @@ def test_notebook_executes_from_fresh_kernel():
         if cell.cell_type == "code"
         for output in cell.get("outputs", [])
     )
+
+
+def test_notebook_reports_valid_mdp():
+    _, outputs = execute_notebook()
+    combined = "".join(outputs)
+    assert "MDP validation passed: 12 states" in combined
+    assert "Initial state: ('charging_zone', 5)" in combined
