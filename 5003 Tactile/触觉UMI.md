@@ -64,8 +64,7 @@
 ![[Screenshot 2026-08-11 at 3.49.51 AM.png]]
 
 ### 行业产品
-**千觉** （https://www.xenserobotics.com/）
-
+**千觉** （https://www.xenserobotics.com）
 GS-PS
 ![[Screenshot 2026-08-10 at 7.04.53 PM.png|260]]
 
@@ -79,5 +78,11 @@ XTAC UMI G1
 ![[IMG_0940 1.jpg|469]]
 
 
-Pico
+PICO 体感追踪器（正式）（https://www.picoxr.com/cn/products/pico-motion-tracker）
+用于追踪用户的全身动作或物体的位置。搭载 1 颗 IMU 传感器和 12 颗红外传感器，支持 6DoF 追踪，且追踪频率高达 200Hz。仅需佩戴 2 个腿部追踪器，就可实现全身 24 个骨骼节点的 6DoF 动作捕捉。全身动捕延迟低至 20 毫秒，平均位置误差低至 5 厘米，平均角度误差低至 6°，踩踏识别准确度 ≥98%。
+
 ![[Screenshot 2026-08-11 at 12.24.08 AM.png|354]]
+
+
+
+
