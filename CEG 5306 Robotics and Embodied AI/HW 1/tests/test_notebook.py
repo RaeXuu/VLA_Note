@@ -76,3 +76,19 @@ def test_notebook_uses_an_interactive_notebook_backend():
     _, outputs = execute_notebook()
     combined = "".join(outputs)
     assert "FigureCanvasAgg is non-interactive" not in combined
+
+
+def test_notebook_documents_action_rewards():
+    notebook = nbformat.read(NOTEBOOK_PATH, as_version=4)
+    markdown = "\n".join(
+        cell.source for cell in notebook.cells if cell.cell_type == "markdown"
+    )
+    assert "Immediate reward" in markdown
+    for action in (
+        "recharge",
+        "travel_to_task",
+        "perform_task",
+        "return_to_charging",
+        "emergency_rescue",
+    ):
+        assert action in markdown
