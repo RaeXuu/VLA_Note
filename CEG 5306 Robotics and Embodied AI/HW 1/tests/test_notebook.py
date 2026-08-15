@@ -51,3 +51,11 @@ def test_policy_iteration_converges_and_verifies_result():
     assert "Bellman residual:" in combined
     assert "Policy stability check passed" in combined
     assert "Expected policy behavior check passed" in combined
+
+
+def test_notebook_exports_required_figures():
+    execute_notebook()
+    policy_path = PROJECT_ROOT / "output" / "optimal_policy.png"
+    value_path = PROJECT_ROOT / "output" / "value_heatmap.png"
+    assert policy_path.exists() and policy_path.stat().st_size > 10_000
+    assert value_path.exists() and value_path.stat().st_size > 10_000
