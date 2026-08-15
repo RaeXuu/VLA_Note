@@ -70,3 +70,9 @@ def test_notebook_contains_required_explanation():
     assert "Policy Improvement" in markdown
     assert "Value Function" in markdown
     assert "Why this submission should be highlighted" in markdown
+
+
+def test_notebook_uses_an_interactive_notebook_backend():
+    _, outputs = execute_notebook()
+    combined = "".join(outputs)
+    assert "FigureCanvasAgg is non-interactive" not in combined
