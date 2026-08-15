@@ -40,6 +40,16 @@ $$
 
 The model therefore contains 12 states.
 
+### Initial-state distribution
+
+Every demonstration episode starts with a fully charged robot in the charging zone:
+
+$$
+P\bigl(S_0=(\texttt{charging\_zone},5)\bigr)=1.
+$$
+
+This initial distribution is used when demonstrating the learned policy. Policy iteration still computes the optimal action for all 12 states, including states that are not encountered in a particular demonstration.
+
 ### Actions
 
 Actions are state-dependent:
@@ -154,12 +164,21 @@ The Notebook must automatically check:
 4. Every next state belongs to the declared state space.
 5. The evaluated value function has a small Bellman residual:
 
-   \[
-   \|V^\pi-(r^\pi+\gamma T^\pi V^\pi)\|_\infty<10^{-10}.
-   \]
+$$
+\|V^\pi-(r^\pi+\gamma T^\pi V^\pi)\|_\infty<10^{-10}.
+$$
 
 6. A final policy-improvement pass leaves the policy unchanged.
-7. Re-running the complete Notebook from a fresh kernel produces the same policy and figures.
+7. The final policy passes a behavioral sanity check: it recharges before leaving, performs tasks while sufficient energy remains, and returns to the charging zone rather than deliberately triggering emergency rescue.
+8. Re-running the complete Notebook from a fresh kernel produces the same policy and figures.
+
+## Alignment with Lecture 1
+
+- The MDP includes the state set, action set, initial-state distribution, transition model, and reward function introduced on Slides 14 and 17.
+- Policy evaluation solves the matrix Bellman equation from Slides 21 and 22.
+- Policy improvement uses the one-step greedy action selection from Slides 27 and 28.
+- The outer loop and stable-policy stopping condition implement the policy-iteration algorithm from Slide 30.
+- The policy table and value heatmap satisfy Slide 39's requirement to illustrate the resulting policy, and the Notebook ends with the requested one-to-two-sentence highlight statement.
 
 ## Visualization
 
