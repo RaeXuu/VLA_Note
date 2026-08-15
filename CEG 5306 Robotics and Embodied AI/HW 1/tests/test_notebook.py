@@ -42,3 +42,12 @@ def test_notebook_reports_valid_mdp():
     combined = "".join(outputs)
     assert "MDP validation passed: 12 states" in combined
     assert "Initial state: ('charging_zone', 5)" in combined
+
+
+def test_policy_iteration_converges_and_verifies_result():
+    _, outputs = execute_notebook()
+    combined = "".join(outputs)
+    assert "Policy iteration converged" in combined
+    assert "Bellman residual:" in combined
+    assert "Policy stability check passed" in combined
+    assert "Expected policy behavior check passed" in combined
