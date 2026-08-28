@@ -1,4 +1,7 @@
+## 触觉
+geo-metric (e.g., size), material (e.g., hardness), and affective (e.g.,comfort)
 
+Gelsight或许只适合解决material的问题（hardness, roughness, and bumpiness）
 
 ## 数据集
 - 数据集简介
@@ -13,6 +16,11 @@ self-supervision 力和滑移的标签
 replayable的数据？   “延迟匹配”和“相对轨迹动作”   视觉分布偏移
 如果做水果：水果的尺寸比较大。。重量比较重
 触觉对“夹爪UMI to 机械臂的迁移”有利
+
+- 不用UMI
+UMI是否有必要？
+情况分为用SSL还是带有annotation的标注，个人觉得，前者相对来说适合UMI或者是两指驱动的夹爪，因为我们是为了获得可以用于大规模训练的数据。后者相对来说适合手持传感器。
+问题在于，触觉本身的属性其实是比较难标注的（VLA-Touch中使用hardness, roughness, and bumpiness）这些属性其实标注的时候比较难以用清晰的分界线定性，个人的判断存在bias。
 
 - 数据质量
 Gelsight触觉数据：不同操作者不同的噪声分布，不同时间和温度baseline漂移，不同材质的接触区域，信号和噪声的比例不同
@@ -29,6 +37,8 @@ DL领域：augmentation、normalization、domain randomization 等成熟的方�
 - 触觉数据仿真
 难以仿真。接触动力学差异和噪声建模。
 real2sim再sim2real
+
+
 
 ## 数据集采集
 
@@ -107,5 +117,29 @@ Human in the loop？
 [T6] Bead maze
 
 
-FeeTacMan
-![[Screenshot 2026-08-10 at 9.52.23 PM.png]]
+
+
+
+## Binghao Huang的survey
+https://binghao-huang.github.io/blog/tactile-survey.html#intro
+
+Hierarchy: ![[Screenshot 2026-08-22 at 2.06.22 PM.png]]
+
+
+Properties: shape, surface material, object pose
+
+## Policy Learning
+![[Screenshot 2026-08-22 at 3.33.02 PM.png]]
+
+## Foundation
+![[Screenshot 2026-08-22 at 2.53.43 PM.png]]
+
+
+
+## Application
+![[Screenshot 2026-08-22 at 3.31.48 PM.png]]
+
+
+
+
+

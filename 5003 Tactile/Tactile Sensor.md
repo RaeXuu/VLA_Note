@@ -26,4 +26,3 @@ Gelsight Mini
 
 
 
-FlexiTac 
